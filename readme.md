@@ -38,6 +38,7 @@ Equivalent to `window.history.back()`
 
 ### `url.query(params[, replace])`
 Update `window.location.search` without clobbering the existing query. Set keys to `null` to remove them.
+* `params` Object
 
 ## Properties
 
