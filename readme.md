@@ -27,7 +27,7 @@ To get proper event sequencing, it's critical you do not use `window.history.{pu
 
 ### `url.push([href][, replace])`
 Equivalent to `window.history.go(href)`. If `href` is ommited this is equivalent to `window.history.forward()`
-* `location` String
+* `href` String
 * `replace` Boolean; indicates to use replaceState instead of pushState
 
 ### `uri.replace(href)`
@@ -45,7 +45,7 @@ Update `window.location.search` without clobbering the existing query. Set keys 
 These properties are described in the [URL spec](https://url.spec.whatwg.org).
 
 ### `init`
-True during the first synchronous sequence of location changes.
+True during the first synchronous sequence of history changes.
 
 ### `back`
 True when the browser's back button has been clicked or `url.pop()` was called.
