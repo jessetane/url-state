@@ -90,7 +90,7 @@ class UrlState extends Emitter {
     this._change()
   }
 
-  _onnavigation (evt, target) {
+  _onnavigation (evt) {
     if (evt.metaKey || evt.defaultPrevented) return
     var target = evt.target
     var href = null
@@ -126,7 +126,7 @@ class UrlState extends Emitter {
 
   _parseHref (href) {
     parser.href = href
-      // https://url.spec.whatwg.org props:
+    // https://url.spec.whatwg.org props:
     this.href = parser.href
     this.protocol = parser.protocol
     this.hostname = parser.hostname
