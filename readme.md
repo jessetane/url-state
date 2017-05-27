@@ -12,9 +12,14 @@ url.on('change', () => {
   console.log(url.pathname, url.params)
 })
 
-url.push('/somewhere')
+url.push('/pathnames')
 url.pop()
-url.query({ q: 'search' })
+url.push('#hashes')
+url.pop()
+url.push('?query=strings')
+url.query({ query: 'objects' }, true)
+url.query({ query: null }, true)
+url.pop()
 ```
 
 ## API
@@ -46,7 +51,7 @@ Update `window.location.search` without clobbering the existing query. Set keys 
 These properties are described in the [URL spec](https://url.spec.whatwg.org).
 
 ### `init`
-True during the first synchronous sequence of history changes.
+True during the first history change and any nested changes.
 
 ### `back`
 True when the browser's back button has been clicked or `url.pop()` was called.
