@@ -8,13 +8,12 @@ class UrlState extends Emitter {
     // bound methods
     this._onnavigation = this._onnavigation.bind(this)
     this._onpopState = this._onpopState.bind(this)
-    // private
+    // properties
     this._index = window.history.state || 0
     this._queue = [{
       href: window.location.href,
       replace: true
     }]
-    // public
     this.init = true
     // init in next tick
     setTimeout(() => this._change())

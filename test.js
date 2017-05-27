@@ -26,71 +26,48 @@ tape('handle push', t => {
 })
 
 tape('handle replace', t => {
-  t.plan(2)
-  var n = 0
-  url.on('change', onchange)
-  function onchange () {
-    if (n === 0) {
-      t.equal(url.pathname, '/b')
-      url.replace('/c')
-      n++
-    } else {
-      t.equal(url.pathname, '/c')
-      url.removeListener('change', onchange)
-    }
-  }
-  url.push('/b')
+  t.plan(1)
+  url.once('change', () => {
+    t.equal(url.pathname, '/b')
+  })
+  url.replace('/b')
 })
 
-tape('handle back async', t => {
-  t.plan(2)
-  var n = 0
-  url.on('change', onchange)
-  function onchange () {
-    if (n === 0) {
-      t.equal(url.pathname, '/a')
-      n++
-    } else {
-      t.equal(url.pathname, '/test.html')
-      url.removeListener('change', onchange)
-    }
-  }
-  url.pop()
+tape('handle pop', t => {
+  t.plan(1)
+  url.once('change', () => {
+    t.equal(url.pathname, '/test.html')
+  })
   url.pop()
 })
 
-tape('handle forward async', t => {
-  t.plan(2)
-  var n = 0
-  url.on('change', onchange)
-  function onchange () {
-    if (n === 0) {
-      t.equal(url.pathname, '/a')
-      n++
-    } else {
-      t.equal(url.pathname, '/c')
-      url.removeListener('change', onchange)
-    }
-  }
-  url.push()
+tape('handle forward', t => {
+  t.plan(1)
+  url.once('change', () => {
+    t.equal(url.pathname, '/b')
+  })
   url.push()
 })
 
-tape('handle back sync', t => {
-  t.plan(2)
+tape('handle nested back', t => {
+  t.plan(3)
   var n = 0
   url.on('change', onchange)
   function onchange () {
     if (n === 0) {
-      t.equal(url.pathname, '/a')
+      t.equal(url.pathname, '/c')
+      url.pop()
       url.pop()
       n++
+    } else if (n === 1) {
+      t.equal(url.pathname, '/b')
+      n++
     } else {
       t.equal(url.pathname, '/test.html')
       url.removeListener('change', onchange)
     }
   }
-  url.pop()
+  url.push('/c')
 })
 
 tape('query', t => {
