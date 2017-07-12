@@ -1,8 +1,8 @@
 # url-state
-Minimalist [history API](https://developer.mozilla.org/en-US/docs/Web/API/History_API) abstraction for building URL driven browser applications.
+Minimalist [History API](https://developer.mozilla.org/en-US/docs/Web/API/History_API) abstraction for building URL driven browser applications.
 
 ## Why
-The predecessor to this library was [uri-router](https://github.com/jessetane/uri-router) which did "all the things". Since 2014 when I first started using that library, I've written a few complex pushState apps and inventoried the features I actually like and use, and those I don't. This library is a subtractive rewrite of [uri-router]() and is quite a bit smaller, faster and more elegant.
+So your website feels like a native app but still has [cool URLs](https://www.w3.org/Provider/Style/URI). Or URIs, or whatever...
 
 ## How
 ``` javascript
