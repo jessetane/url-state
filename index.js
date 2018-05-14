@@ -96,7 +96,7 @@ class UrlState extends Emitter {
     if (target.nodeName === 'A') {
       href = target.href
     } else if (target.nodeName === 'FORM') {
-      if (!target.action) {
+      if (!target.action || target.action === window.location.href) {
         evt.preventDefault()
         return
       }
