@@ -117,6 +117,7 @@ class UrlState extends Emitter {
   _onpopState (evt) {
     this._parseHref(window.location)
     this.back = evt.state < this._index
+    this._index += this.back ? -1 : 1
     this._lastHref = this.href
     this.emit('change', this)
     this._busy = false
