@@ -1,6 +1,6 @@
 {
   "name": "url-state",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Minimalist history API abstraction for building URL driven browser applications",
   "scripts": {
     "test": "PORT=7357 node test-server.js"
