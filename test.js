@@ -1,58 +1,51 @@
-var tape = require('tape')
-var url = null
+import url from './index.js'
+import tap from './tap6/index.js'
 
 var pre = document.createElement('pre')
 document.body.appendChild(pre)
 
-tape('dispatch initial change event', t => {
-  t.plan(2)
-  url = require('./')
-  url.on('change', () => {
-    // some visual feedback
-    pre.textContent = JSON.stringify(url, null, 2)
-  })
-  url.once('change', () => {
-    t.equal(url.pathname, '/test.html')
-    t.equal(url.init, true)
-  })
+tap('initial state', t => {
+  t.plan(1)
+  pre.textContent = JSON.stringify(url, null, 2)
+  t.equal(url.pathname, '/')
 })
 
-tape('handle push', t => {
+tap('handle push', t => {
   t.plan(1)
-  url.once('change', () => {
+  url.addEventListener('change', () => {
     t.equal(url.pathname, '/a')
-  })
+  }, { once: true })
   url.push('/a')
 })
 
-tape('handle replace', t => {
+tap('handle replace', t => {
   t.plan(1)
-  url.once('change', () => {
+  url.addEventListener('change', () => {
     t.equal(url.pathname, '/b')
-  })
+  }, { once: true })
   url.replace('/b')
 })
 
-tape('handle pop', t => {
+tap('handle pop', t => {
   t.plan(1)
-  url.once('change', () => {
-    t.equal(url.pathname, '/test.html')
-  })
+  url.addEventListener('change', () => {
+    t.equal(url.pathname, '/')
+  }, { once: true })
   url.pop()
 })
 
-tape('handle forward', t => {
+tap('handle forward', t => {
   t.plan(1)
-  url.once('change', () => {
+  url.addEventListener('change', () => {
     t.equal(url.pathname, '/b')
-  })
+  }, { once: true })
   url.push()
 })
 
-tape('handle nested back', t => {
+tap('handle nested back', t => {
   t.plan(3)
   var n = 0
-  url.on('change', onchange)
+  url.addEventListener('change', onchange)
   function onchange () {
     if (n === 0) {
       t.equal(url.pathname, '/c')
@@ -63,47 +56,51 @@ tape('handle nested back', t => {
       t.equal(url.pathname, '/b')
       n++
     } else {
-      t.equal(url.pathname, '/test.html')
-      url.removeListener('change', onchange)
+      t.equal(url.pathname, '/')
+      url.removeEventListener('change', onchange)
     }
   }
   url.push('/c')
 })
 
-tape('query', t => {
-  t.plan(9)
+tap('query', t => {
+  t.plan(13)
   var n = 0
-  url.on('change', onchange)
+  url.addEventListener('change', onchange)
   function onchange () {
     if (n === 0) {
-      t.deepEqual(url.params, { foo: 'bar' })
-      t.equal(url.search, '?foo=bar')
+      t.equal(1, Object.keys(url.params).length)
+      t.equal('bar', url.params.foo)
+      t.equal('?foo=bar', url.search)
       url.query({ beep: 'boop' })
       n++
     } else if (n === 1) {
-      t.deepEqual(url.params, { foo: 'bar', beep: 'boop' })
+      t.equal(Object.keys(url.params).length, 2)
+      t.equal(url.params.foo, 'bar')
+      t.equal(url.params.beep, 'boop')
       t.equal(url.search, '?foo=bar&beep=boop')
       url.query({ foo: null, beep: '42' })
       n++
     } else if (n === 2) {
-      t.deepEqual(url.params, { beep: '42' })
+      t.equal(Object.keys(url.params).length, 1)
+      t.equal(url.params.beep, '42')
       t.equal(url.search, '?beep=42')
       url.query({ beep: null })
       n++
     } else {
-      t.deepEqual(url.params, {})
+      t.equal(Object.keys(url.params).length, 0)
       t.equal(url.search, '')
       t.notEqual(window.location.href.slice(-1)[0], '?')
-      url.removeListener('change', onchange)
+      url.removeEventListener('change', onchange)
     }
   }
   url.query({ foo: 'bar' })
 })
 
-tape('handle hash', t => {
+tap('handle hash', t => {
   t.plan(3)
   var n = 0
-  url.on('change', onchange)
+  url.addEventListener('change', onchange)
   function onchange () {
     if (n === 0) {
       t.equal(url.hash, '#ish')
@@ -112,7 +109,7 @@ tape('handle hash', t => {
     } else {
       t.equal(url.hash, '')
       t.notEqual(window.location.href.slice(-1)[0], '#')
-      url.removeListener('change', onchange)
+      url.removeEventListener('change', onchange)
     }
   }
   url.push('#ish')

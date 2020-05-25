@@ -1,16 +1,15 @@
 {
   "name": "url-state",
   "version": "1.0.6",
+  "type": "module",
   "description": "Minimalist history API abstraction for building URL driven browser applications",
   "scripts": {
-    "test": "PORT=7357 node test-server.js"
+    "test-browser": "PORT=7357 app-server"
   },
   "devDependencies": {
-    "app-server": "github:jessetane/app-server",
-    "build-js": "github:jessetane/build-js",
-    "tape": "^4.6.3"
+    "app-server": "github:jessetane/app-server#4.1.1",
+    "tap6": "^1.0.0"
   },
   "repository": "https://github.com/jessetane/url-state",
-  "author": "jesse.tane@gmail.com",
   "license": "MIT"
 }

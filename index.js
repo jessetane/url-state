@@ -1,8 +1,7 @@
-var Emitter = require('events')
-var qs = require('querystring')
+import qs from './qs.js'
 var parser = document.createElement('A')
 
-class UrlState extends Emitter {
+class UrlState extends EventTarget {
   constructor () {
     super()
     // bound methods
@@ -14,9 +13,7 @@ class UrlState extends Emitter {
       href: window.location.href,
       replace: true
     }]
-    this.init = true
-    // init in next tick
-    setTimeout(() => this._change())
+    this._change()
   }
 
   push (href, replace) {
@@ -48,10 +45,7 @@ class UrlState extends Emitter {
   }
 
   _change () {
-    if (this._busy || this._queue.length === 0) {
-      this.init = false
-      return
-    }
+    if (this._busy || this._queue.length === 0) return
     this._busy = true
     var action = this._queue.shift()
     if (action.type === 'forward') {
@@ -83,7 +77,7 @@ class UrlState extends Emitter {
       } else {
         window.history.pushState(++this._index, null, this.href)
       }
-      this.emit('change', this)
+      this.dispatchEvent(new CustomEvent('change', { detail: this }))
     }
     this._busy = false
     this._change()
@@ -119,7 +113,7 @@ class UrlState extends Emitter {
     this.back = evt.state < this._index
     this._index += this.back ? -1 : 1
     this._lastHref = this.href
-    this.emit('change', this)
+    this.dispatchEvent(new CustomEvent('change', { detail: this }))
     this._busy = false
     this._change()
   }
@@ -150,7 +144,8 @@ class UrlState extends Emitter {
   }
 }
 
-var urlState = module.exports = new UrlState()
+var urlState = new UrlState()
+export default urlState
 
 // link clicks and form submissions
 window.addEventListener('click', urlState._onnavigation)

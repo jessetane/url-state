@@ -6,9 +6,9 @@ So your website feels like a native app but still has [cool URLs](https://www.w3
 
 ## How
 ``` javascript
-var url = require('url-state')
+import url from 'url-state'
 
-url.on('change', () => {
+url.addEventListener('change', () => {
   console.log(url.pathname, url.params)
 })
 
@@ -24,8 +24,8 @@ url.pop()
 
 ## API
 
-### `var url = require('url-state')`
-Returns a `UrlState` singleton. The first time `url-state` is required, it will globally hijack all link clicks and form submissions targeting the origin and begin listening for the `popstate` event.
+### `import url from 'url-state'`
+Returns a `UrlState` singleton. The first time `url-state` is imported, it will globally hijack all link clicks and form submissions targeting the origin and begin listening for the `popstate` event.
 
 ## Methods
 To get proper event sequencing, it's critical you do not use `window.history.{pushState,replaceState,go,forward,back}()` directly. Use the methods below instead.
