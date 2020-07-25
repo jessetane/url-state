@@ -1,5 +1,5 @@
 import url from './index.js'
-import tap from './tap6/index.js'
+import tap from './tap-esm/index.js'
 
 var pre = document.createElement('pre')
 document.body.appendChild(pre)

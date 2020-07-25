@@ -8,7 +8,7 @@
   },
   "devDependencies": {
     "app-server": "github:jessetane/app-server#4.1.1",
-    "tap6": "^1.0.0"
+    "tap-esm": "^1.0.1"
   },
   "repository": "https://github.com/jessetane/url-state",
   "license": "MIT"
