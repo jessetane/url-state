@@ -35,8 +35,8 @@ Equivalent to `window.history.go(href)`. If `href` is ommited this is equivalent
 * `href` String
 * `replace` Boolean; indicates to use replaceState instead of pushState
 
-### `uri.replace(href)`
-Sugar for `uri.push(href, true)`.
+### `url.replace(href)`
+Sugar for `url.push(href, true)`.
 
 ### `url.pop()`
 Equivalent to `window.history.back()`
