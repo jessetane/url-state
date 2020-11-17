@@ -1,8 +1,9 @@
 import qs from './qs.js'
 var parser = document.createElement('A')
 
-class UrlState {
+class UrlState extends EventTarget {
   constructor () {
+    super()
     // bound methods
     this._onnavigation = this._onnavigation.bind(this)
     this._onpopState = this._onpopState.bind(this)
@@ -13,14 +14,6 @@ class UrlState {
       replace: true
     }]
     this._change()
-  }
-
-  addEventListener () {
-    parser.addEventListener.apply(parser, arguments)
-  }
-
-  removeEventListener () {
-    parser.removeEventListener.apply(parser, arguments)
   }
 
   push (href, replace) {
@@ -84,7 +77,7 @@ class UrlState {
       } else {
         window.history.pushState(++this._index, null, this.href)
       }
-      parser.dispatchEvent(new CustomEvent('change', { detail: this }))
+      this.dispatchEvent(new CustomEvent('change', { detail: this }))
     }
     this._busy = false
     this._change()
@@ -120,7 +113,7 @@ class UrlState {
     this.back = evt.state < this._index
     this._index += this.back ? -1 : 1
     this._lastHref = this.href
-    parser.dispatchEvent(new CustomEvent('change', { detail: this }))
+    this.dispatchEvent(new CustomEvent('change', { detail: this }))
     this._busy = false
     this._change()
   }
