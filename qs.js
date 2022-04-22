@@ -27,6 +27,8 @@ var qs = {
       }
     }
     return string.toString()
+      .replace(/=&/g, '&')
+      .replace(/=$/g, '')
   }
 }
 

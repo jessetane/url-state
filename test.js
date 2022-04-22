@@ -77,7 +77,7 @@ tap('handle nested back', t => {
 })
 
 tap('query', t => {
-  t.plan(13)
+  t.plan(20)
   var n = 0
   url.addEventListener('change', onchange)
   function onchange () {
@@ -98,6 +98,19 @@ tap('query', t => {
       t.equal(Object.keys(url.params).length, 1)
       t.equal(url.params.beep, '42')
       t.equal(url.search, '?beep=42')
+      url.query({ beep: [ 42, 43 ] })
+      n++
+    } else if (n === 3) {
+      t.equal(Object.keys(url.params).length, 1)
+      t.equal(url.params.beep[0], '42')
+      t.equal(url.params.beep[1], '43')
+      t.equal(url.search, '?beep=42&beep=43')
+      url.query({ beep: '' })
+      n++
+    } else if (n === 4) {
+      t.equal(Object.keys(url.params).length, 1)
+      t.equal(url.params.beep, '')
+      t.equal(url.search, '?beep')
       url.query({ beep: null })
       n++
     } else {
