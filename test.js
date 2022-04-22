@@ -30,9 +30,11 @@ tap('handle push', t => {
 })
 
 tap('handle replace', t => {
-  t.plan(1)
+  t.plan(2)
+  const state = window.history.state
   url.addEventListener('change', () => {
     t.equal(url.pathname, '/b')
+    t.equal(window.history.state, state)
   }, { once: true })
   url.replace('/b')
 })
