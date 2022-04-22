@@ -19,10 +19,14 @@ class UrlState extends EventTarget {
   push (href, replace) {
     if (!href) {
       this._queue.push({ type: 'forward' })
-      this._change()
-      return
+    } else if (typeof href === 'object') {
+      href.type = 'query'
+      href.replace = replace !== undefined ? replace : href.replace
+      href.params = href.query ? href.query : href.params
+      this._queue.push(href)
+    } else {
+      this._queue.push({ href, replace })
     }
-    this._queue.push({ href, replace })
     this._change()
   }
 
@@ -66,7 +70,7 @@ class UrlState extends EventTarget {
       }
       var search = qs.stringify(params) || ''
       if (search) search = '?' + search
-      action.href = this.origin + this.pathname + search
+      action.href = this.origin + (action.pathname || this.pathname) + search + (action.hash || this.hash)
     }
     this.back = false
     if (action.href !== this._lastHref) {

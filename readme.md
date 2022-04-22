@@ -32,7 +32,7 @@ To get proper event sequencing, it's critical you do not use `window.history.{pu
 
 ### `url.push([href][, replace])`
 Equivalent to `window.history.go(href)`. If `href` is ommited this is equivalent to `window.history.forward()`
-* `href` String
+* `href` String|Object{pathname,query,hash,replace}
 * `replace` Boolean; indicates to use replaceState instead of pushState
 
 ### `url.replace(href)`

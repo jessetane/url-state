@@ -11,10 +11,21 @@ tap('initial state', t => {
 })
 
 tap('handle push', t => {
-  t.plan(1)
-  url.addEventListener('change', () => {
-    t.equal(url.pathname, '/a')
-  }, { once: true })
+  t.plan(4)
+  var n = 0
+  url.addEventListener('change', onchange)
+  function onchange () {
+    if (n === 0) {
+      t.equal(url.pathname, '/a')
+      url.push({ pathname: '/b', query: { x: 42 }, hash: '#ish', replace: true })
+      n++
+    } else {
+      t.equal(url.pathname, '/b')
+      t.equal(url.params.x, '42')
+      t.equal(url.hash, '#ish')
+      url.removeEventListener('change', onchange)
+    }
+  }
   url.push('/a')
 })
 
