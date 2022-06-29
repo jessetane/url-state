@@ -88,7 +88,7 @@ class UrlState extends EventTarget {
   }
 
   _onnavigation (evt) {
-    if (evt.metaKey || evt.defaultPrevented) return
+    if (evt.metaKey || || evt.ctrlKey || evt.defaultPrevented) return
     var target = evt.target
     var href = null
     if (target.nodeName === 'A') {
