@@ -1,6 +1,6 @@
 {
   "name": "url-state",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "type": "module",
   "description": "Minimalist history API abstraction for building URL driven browser applications",
   "scripts": {
