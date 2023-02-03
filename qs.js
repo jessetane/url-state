@@ -8,7 +8,7 @@ var qs = {
         params[key] = kv[1]
       } else {
         if (Array.isArray(prev)) {
-          params.push(kv[1])
+          prev.push(kv[1])
         } else {
           params[key] = [prev, kv[1]]
         }
