@@ -76,10 +76,12 @@ class UrlState extends EventTarget {
     if (action.href !== this._lastHref) {
       this._lastHref = action.href
       this._parseHref(action.href)
-      if (action.replace) {
-        window.history.replaceState(this._index, null, this.href)
-      } else {
-        window.history.pushState(++this._index, null, this.href)
+      if (window.parent === window) {
+        if (action.replace) {
+          window.history.replaceState(this._index, null, this.href)
+        } else {
+          window.history.pushState(++this._index, null, this.href)
+        }
       }
       this.dispatchEvent(new CustomEvent('change', { detail: this }))
     }
