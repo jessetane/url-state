@@ -1,5 +1,5 @@
-import url from './index.js'
-import tap from './tap-esm/index.js'
+import url from 'url-state'
+import tap from 'tap-esm'
 
 var pre = document.createElement('pre')
 document.body.appendChild(pre)
@@ -124,7 +124,7 @@ tap('query', t => {
   url.query({ foo: 'bar' })
 })
 
-tap('handle hash', t => {
+tap('handle url hash', t => {
   t.plan(3)
   var n = 0
   url.addEventListener('change', onchange)

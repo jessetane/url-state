@@ -4,11 +4,11 @@
   "type": "module",
   "description": "Minimalist history API abstraction for building URL driven browser applications",
   "scripts": {
-    "test-browser": "PORT=7357 app-server"
+    "test": "ecstatic --cache no-cache --port 7357 test"
   },
   "devDependencies": {
-    "app-server": "github:jessetane/app-server#4.1.1",
-    "tap-esm": "^1.0.1"
+    "ecstatic": "^4.1.4",
+    "tap-esm": "^3.0.0"
   },
   "repository": "https://github.com/jessetane/url-state",
   "license": "MIT"
