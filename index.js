@@ -8,6 +8,7 @@ class UrlState extends EventTarget {
     this._onnavigation = this._onnavigation.bind(this)
     this._onpopState = this._onpopState.bind(this)
     // properties
+    this.virtual = window.parent !== window || window.navigator.standalone || window.matchMedia('(display-mode: standalone)').matches
     this._index = window.history.state || 0
     this._queue = [{
       href: window.location.href,
@@ -50,12 +51,15 @@ class UrlState extends EventTarget {
 
   _change () {
     if (this._busy || this._queue.length === 0) return
-    this._busy = true
     var action = this._queue.shift()
     if (action.type === 'forward') {
+      if (this.virtual) throw new Error('forward disallowed when virtual')
+      this._busy = true
       window.history.forward()
       return
     } else if (action.type === 'back') {
+      if (this.virtual) throw new Error('back disallowed when virtual')
+      this._busy = true
       window.history.back()
       return
     } else if (action.type === 'query') {
@@ -73,10 +77,11 @@ class UrlState extends EventTarget {
       action.href = this.origin + (action.pathname || this.pathname) + search + (action.hash || this.hash)
     }
     this.back = false
+    this._busy = true
     if (action.href !== this._lastHref) {
       this._lastHref = action.href
       this._parseHref(action.href)
-      if (window.parent === window) {
+      if (!this.virtual) {
         if (action.replace) {
           window.history.replaceState(this._index, null, this.href)
         } else {

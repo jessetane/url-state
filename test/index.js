@@ -141,3 +141,33 @@ tap('handle url hash', t => {
   }
   url.push('#ish')
 })
+
+tap('virtual', t => {
+  t.plan(2)
+  const start = window.history.state
+  url.addEventListener('change', evt => {
+    const end = window.history.state
+    t.equal(start, end)
+    url.addEventListener('change', () => t.pass(), { once: true })
+    url.pop()
+    url.virtual = false
+  }, { once: true })
+  url.virtual = true
+  url.push('/x')
+})
+
+tap('virtual forbidden methods', t => {
+  t.plan(2)
+  url.virtual = true
+  try {
+    url.pop()
+  } catch (err) {
+    t.equal(err.message, 'back disallowed when virtual')
+  }
+  try {
+    url.push()
+  } catch (err) {
+    t.equal(err.message, 'forward disallowed when virtual')
+  }
+  url.virtual = false
+})
