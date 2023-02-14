@@ -48,16 +48,19 @@ Update `window.location.search` without clobbering the existing query. Set keys 
 ## Properties
 
 ### `href` `protocol` `hostname` `port` `pathname` `search` `hash` `host` `origin`
-These properties are described in the [URL spec](https://url.spec.whatwg.org).
+Read only. These properties are described in the [URL spec](https://url.spec.whatwg.org).
 
 ### `init`
-True during the first history change and any nested changes.
+Read only. True during the first history change and any nested changes.
 
 ### `back`
-True when the browser's back button has been clicked or `url.pop()` was called.
+Read only. True when the browser's back button has been clicked or `url.pop()` was called.
 
 ### `params`
-A parsed search (query) string object.
+Read only. A parsed search (query) string object.
+
+### `virtual`
+Read/write. When true, `window.history` is not manipulated. Push/replace/query methods function normally but back and forward (pop, push with no args) are disallowed. The default value is initialized to be true when running in a frame or progressive web app context but may be changed at any time.
 
 ## Test
 ``` shell
