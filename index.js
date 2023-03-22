@@ -96,19 +96,24 @@ class UrlState extends EventTarget {
 
   _onnavigation (evt) {
     if (evt.metaKey || evt.ctrlKey || evt.defaultPrevented) return
-    var target = evt.target
     var href = null
-    if (target.nodeName === 'A') {
-      href = target.href
-    } else if (target.nodeName === 'FORM') {
+    var target = evt.target
+    if (evt.type === 'submit') {
       if (!target.action || target.action === window.location.href) {
         evt.preventDefault()
         return
       }
       href = target.action
     } else {
-      return
+      while (target) {
+        if (target.nodeName === 'A') {
+          href = target.href
+          break
+        }
+        target = target.parentElement
+      }
     }
+    if (href === null) return
     parser.href = href
     var origin = parser.protocol + '//' + parser.host
     if (origin !== window.location.origin) {
