@@ -107,6 +107,7 @@ class UrlState extends EventTarget {
     } else {
       while (target) {
         if (target.nodeName === 'A') {
+          if (target.target === '_blank' || target.download !== undefined) return
           href = target.href
           break
         }
