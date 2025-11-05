@@ -60,7 +60,7 @@ Read only. True when the browser's back button has been clicked or `url.pop()` w
 Read only. A parsed search (query) string object.
 
 ### `virtual`
-Read/write. When true, `window.history` is not manipulated. Push/replace/query methods function normally but back and forward (pop, push with no args) are disallowed. The default value is initialized to be true when running in a frame or progressive web app context but may be changed at any time.
+Read/write. When true, `window.history` is not manipulated. Push/replace/query methods function normally but back and forward (pop, push with no args) are disallowed. The default value is initialized to be true when running in a frame but may be changed at any time.
 
 ## Test
 ``` shell

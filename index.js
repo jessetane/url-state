@@ -2,13 +2,13 @@ import qs from './qs.js'
 var parser = document.createElement('A')
 
 class UrlState extends EventTarget {
-  constructor () {
+  constructor (opts = {}) {
     super()
     // bound methods
     this._onnavigation = this._onnavigation.bind(this)
     this._onpopState = this._onpopState.bind(this)
     // properties
-    this.virtual = window.parent !== window || window.navigator.standalone || window.matchMedia('(display-mode: standalone)').matches
+    this.virtual = opts.virtual === undefined ? window.parent !== window : opts.virtual
     this._index = window.history.state || 0
     this._queue = [{
       href: window.location.href,
@@ -52,16 +52,12 @@ class UrlState extends EventTarget {
   _change () {
     if (this._busy || this._queue.length === 0) return
     var action = this._queue.shift()
-    if (action.type === 'forward') {
-      if (this.virtual) throw new Error('forward disallowed when virtual')
-      this._busy = true
-      window.history.forward()
-      return
-    } else if (action.type === 'back') {
-      if (this.virtual) throw new Error('back disallowed when virtual')
-      this._busy = true
-      window.history.back()
-      return
+    if (action.type === 'back' || action.type === 'forward') {
+      if (this.virtual) throw new Error('back/forward not implemented for virtual')
+      const s = window.history.state
+      window.history[action.type]()
+      if (window.history.state !== s) return
+      action.href = this._lastHref
     } else if (action.type === 'query') {
       var params = this.params || {}
       for (var key in action.params) {
