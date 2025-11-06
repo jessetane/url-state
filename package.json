@@ -4,7 +4,7 @@
   "type": "module",
   "description": "Minimalist history API abstraction for building URL driven browser applications",
   "scripts": {
-    "test": "ecstatic --cache no-cache --port 7357 test"
+    "test": "npx ecstatic --cache no-cache --port 7357 test"
   },
   "devDependencies": {
     "ecstatic": "^4.1.4",

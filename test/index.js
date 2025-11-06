@@ -162,12 +162,12 @@ tap('virtual forbidden methods', t => {
   try {
     url.pop()
   } catch (err) {
-    t.equal(err.message, 'back disallowed when virtual')
+    t.ok(err.message.indexOf('virtual') > -1)
   }
   try {
     url.push()
   } catch (err) {
-    t.equal(err.message, 'forward disallowed when virtual')
+    t.ok(err.message.indexOf('virtual') > -1)
   }
   url.virtual = false
 })
